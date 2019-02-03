@@ -31,6 +31,20 @@ ticket_2.save()
 ticket_3 = Ticket.new({'customer_id' => customer_3.id, 'film_id' => film_3.id})
 ticket_3.save()
 
+customer_1.name = 'Hannah'
+customer_1.update
+
+film_3.title = 'Bring it on'
+film_3.update()
+
+ticket_3.customer_id = customer_2.id
+ticket_3.update()
+
+
+
+
+
+
 
 binding.pry
 nil

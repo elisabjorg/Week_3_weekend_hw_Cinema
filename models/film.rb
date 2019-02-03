@@ -22,6 +22,27 @@ class Film
     @id = film['id'].to_i
   end
 
+  def update()
+    sql = "UPDATE films SET title = $1 WHERE id = $2"
+    values = [@title, @id]
+    SqlRunner.run( sql, values )
+  end
+
+  def customer()
+    sql = "SELECT customers.* FROM customers
+           INNER JOIN tickets ON customers.id = tickets.customer_id
+           WHERE film_id = $1"
+    values = [@id]
+    customer_data = SqlRunner.run(sql, values)
+    return Customer.map_items(customer_data)
+  end
+
+  # def self.get_price(title)
+  #   sql = "SELECT price FROM films WHERE title = $1"
+  #   return SqlRunner(sql)[0]['price']
+  # end
+
+
   def self.all()
     sql = "SELECT FROM films"
     values = []
@@ -35,6 +56,11 @@ class Film
     sql = "DELETE FROM films"
     values = []
     SqlRunner.run(sql, values)
+  end
+
+  def self.map_items(data)
+    result = data.map{|film| Film.new(film)}
+    return result
   end
 
 
